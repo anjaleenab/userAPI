@@ -44,11 +44,14 @@ class UserController extends Controller
 
     public function updateUser(Request $request, $id)
     {
-        print_r($id);
-        print_r($request->first_name);
+        $userID =substr($id, 1, -1);
+
+        // print_r($request->first_name);
         $users = new Users();
-        $user = Users::find($id);
-        print_r($user);
+        $user = Users::find($userID);
+        //GET RID OF {} on ID
+        //loop through each piece of data and print it individually
+        print_r($user->first_name);
     }
 
     /*
