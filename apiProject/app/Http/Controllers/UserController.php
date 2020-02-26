@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use App\Users;
 
 class UserController extends Controller
 {
@@ -19,7 +19,7 @@ class UserController extends Controller
         /*
         * creates a new User object model
         */
-        $users = new User();
+        $users = new Users();
 
         /*
         *sets the values of the model to the
@@ -42,9 +42,13 @@ class UserController extends Controller
     * Updates user in USER table when given a required id and any other table field
     */
 
-    public function updateUser($id, $field)
+    public function updateUser(Request $request, $id)
     {
-
+        print_r($id);
+        print_r($request->first_name);
+        $users = new Users();
+        $user = Users::find($id);
+        print_r($user);
     }
 
     /*
@@ -55,7 +59,7 @@ class UserController extends Controller
     {
         // $users = new User();
 
-        $users = User::all();
+        $users = Users::all();
 
         return response()-> json($users);
 
