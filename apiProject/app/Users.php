@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\UserController;
 
 
-class User extends Model
+class Users extends Model
 {
 
     protected $table = 'users';

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use App\Users;
 
 class UserController extends Controller
 {
@@ -19,7 +19,7 @@ class UserController extends Controller
         /*
         * creates a new User object model
         */
-        $users = new User();
+        $users = new Users();
 
         /*
         *sets the values of the model to the
@@ -42,9 +42,44 @@ class UserController extends Controller
     * Updates user in USER table when given a required id and any other table field
     */
 
-    public function updateUser($id, $field)
+    public function updateUser(Request $request, $id)
     {
+        //retrieves field for change and saves it into a variable
 
+        $firstName = $request->first_name;
+        $lastName = $request->last_name;
+        $email = $request->email;
+
+        //removes the brackets from around the $id variable
+        $userID =substr($id, 1, -1);
+
+        // print_r($request->first_name);
+        $users = new Users();
+        $user = Users::find($userID);
+
+        //conditionally sets the new field of the user
+        if($firstName) {
+            $user->first_name = $firstName;
+            print_r($request->first_name);
+        } else if ($lastName) {
+            $user->last_name = $lastName;
+            print_r($lastName);
+        } else if ($email) {
+            $user->email = $email;
+            print_r($email);
+        }
+        //else {
+            //throw error here
+       // }
+
+        $user->save();
+
+
+
+
+
+        //loop through each piece of data and print it individually
+        print_r($user->first_name);
     }
 
     /*
@@ -55,7 +90,7 @@ class UserController extends Controller
     {
         // $users = new User();
 
-        $users = User::all();
+        $users = Users::all();
 
         return response()-> json($users);
 
