@@ -21,15 +21,25 @@ class UserController extends Controller
         */
         $users = new Users();
 
+        $firstName = $request->first_name;
+        $lastName = $request->last_name;
+        $email = $request->email;
+
+        //checks to make sure required fields are all there
+        //if anything is missing it lets the user know
+
+        if(!$firstName || $lastName || $email) {
+            return 'First Name, Last Name, and Email are required!';
+        }
         /*
         *sets the values of the model to the
         *corresponding values of the request object */
 
-        $users->first_name = $request->first_name;
-        $users->last_name = $request->last_name;
-        $users->email = $request->email;
+        $users->first_name = $firstName;
+        $users->last_name = $lastName;
+        $users->email = $email;
 
-        // creates an XML document with the data that was passed
+        // updates model
 
         $users->save();
 
@@ -50,14 +60,20 @@ class UserController extends Controller
         $lastName = $request->last_name;
         $email = $request->email;
 
+        if(!$id) {
+            return 'ID and Field are required';
+        }
+
         //removes the brackets from around the $id variable
         $userID =substr($id, 1, -1);
 
+        $field = null;
         // print_r($request->first_name);
         $users = new Users();
         $user = Users::find($userID);
 
         //conditionally sets the new field of the user
+
         if($firstName) {
             $user->first_name = $firstName;
             print_r($request->first_name);
@@ -65,21 +81,22 @@ class UserController extends Controller
             $user->last_name = $lastName;
             print_r($lastName);
         } else if ($email) {
+
+            //checks to see if email is "valid"
+            /*assumes valid emails only contain numbers, letters, an @ sign, periods, underscores, pluses
+            and do not have spaces */
+
+            if(!preg_match('\b[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', $email)) {
+                return 'Invalid Email';
+            }
+
             $user->email = $email;
             print_r($email);
         }
-        //else {
-            //throw error here
-       // }
 
         $user->save();
 
-
-
-
-
-        //loop through each piece of data and print it individually
-        print_r($user->first_name);
+        return $user;
     }
 
     /*
@@ -88,7 +105,6 @@ class UserController extends Controller
 
     public function getUsers()
     {
-        // $users = new User();
 
         $users = Users::all();
 
