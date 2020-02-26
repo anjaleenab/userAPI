@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
+
 class UserController extends Controller
 {
 
     /*
-    * When given a firstName, lastName, and an Email
-    *It creates a User in the USER table
+    * When given a first name, last name, and an Email
+    * It creates a User in the USER table
     */
 
-    public function createUser($firstName, $lastName, $email) {
+    public function createUser(Request $request)
+    {
+        $users = new User();
 
+        $users->first_name = $request->first_name;
+        $users->last_name = $request->last_name;
+        $users->email = $request->email;
+
+        $users->save();
+        return response()-> json($users);
     }
 
     /*
@@ -26,7 +36,7 @@ class UserController extends Controller
     }
 
     /*
-    Responds to a GET Request to retrieve all of the Users from the USER table
+    * Responds to a GET Request to retrieve all of the Users from the USER table
     */
 
     public function getUsers()
