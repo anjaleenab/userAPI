@@ -16,13 +16,25 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
+        /*
+        * creates a new User object model
+        */
         $users = new User();
+
+        /*
+        *sets the values of the model to the
+        *corresponding values of the request object */
 
         $users->first_name = $request->first_name;
         $users->last_name = $request->last_name;
         $users->email = $request->email;
 
+        // creates an XML document with the data that was passed
+
         $users->save();
+
+        //returns response to user for confirmation
+
         return response()-> json($users);
     }
 
@@ -41,6 +53,11 @@ class UserController extends Controller
 
     public function getUsers()
     {
+        // $users = new User();
+
+        $users = User::all();
+
+        return response()-> json($users);
 
     }
 
