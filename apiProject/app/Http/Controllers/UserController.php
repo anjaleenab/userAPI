@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Users;
 
+use App\Http\Controllers\Controller;
+
 class UserController extends Controller
 {
 
@@ -25,12 +27,14 @@ class UserController extends Controller
         $lastName = $request->last_name;
         $email = $request->email;
 
-        //checks to make sure required fields are all there
-        //if anything is missing it lets the user know
+        /*checks to make sure required fields are all there
+        if anything is missing it lets the user know
+        */
 
-        if(!$firstName || $lastName || $email) {
+        if(!$firstName || !$lastName || !$email) {
             return 'First Name, Last Name, and Email are required!';
         }
+
         /*
         *sets the values of the model to the
         *corresponding values of the request object */
@@ -39,13 +43,16 @@ class UserController extends Controller
         $users->last_name = $lastName;
         $users->email = $email;
 
-        // updates model
+         //updates model
 
         $users->save();
 
-        //returns response to user for confirmation
+        $resp= $users;
 
-        return response()-> json($users);
+        //returns a view and passes it the newly created data
+
+        return view('createUser') ->with('newUser', $resp);
+
     }
 
     /*
@@ -67,19 +74,19 @@ class UserController extends Controller
         //removes the brackets from around the $id variable
         $userID =substr($id, 1, -1);
 
-        $field = null;
-        // print_r($request->first_name);
         $users = new Users();
         $user = Users::find($userID);
+
+        if(!$user) {
+            return 'invalid User ID';
+        }
 
         //conditionally sets the new field of the user
 
         if($firstName) {
             $user->first_name = $firstName;
-            print_r($request->first_name);
         } else if ($lastName) {
             $user->last_name = $lastName;
-            print_r($lastName);
         } else if ($email) {
 
             //checks to see if email is "valid"
@@ -91,12 +98,14 @@ class UserController extends Controller
             }
 
             $user->email = $email;
-            print_r($email);
         }
 
         $user->save();
 
-        return $user;
+        //returns a view with the data for the updated user
+
+        return view('updateUser')->with('updatedUser', $user);
+
     }
 
     /*
@@ -108,7 +117,11 @@ class UserController extends Controller
 
         $users = Users::all();
 
-        return response()-> json($users);
+        $resp = $users;
+
+        //returns a view with a list of every user
+
+        return view('getUsers')->with('everyUser', $resp);
 
     }
 
