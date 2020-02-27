@@ -74,8 +74,6 @@ class UserController extends Controller
         //removes the brackets from around the $id variable
         $userID =substr($id, 1, -1);
 
-        $field = null;
-        // print_r($request->first_name);
         $users = new Users();
         $user = Users::find($userID);
 
