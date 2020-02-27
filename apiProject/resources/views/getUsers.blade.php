@@ -7,7 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <p>{{!! $data !!}} </p>
+
+   <!--- loops through each user and makes a list
+   of them that includes their first and last names
+   addresses-->
+
+    <?php  foreach($everyUser as $user) {
+
+     print "<li>$user->first_name $user->last_name </li>";
+
+    } ?>
 
 </body>
 

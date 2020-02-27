@@ -51,7 +51,7 @@ class UserController extends Controller
 
         //returns a view and passes it the newly created data
 
-        return view('createUser') ->with('data', $resp);
+        return view('createUser') ->with('newUser', $resp);
 
     }
 
@@ -104,7 +104,9 @@ class UserController extends Controller
 
         $user->save();
 
-        return view('updateUser')->with('data', $user);
+        //returns a view with the data for the updated user
+
+        return view('updateUser')->with('updatedUser', $user);
 
     }
 
@@ -117,7 +119,11 @@ class UserController extends Controller
 
         $users = Users::all();
 
-        return response()-> json($users);
+        $resp = $users;
+
+        //returns a view with a list of every user
+
+        return view('getUsers')->with('everyUser', $resp);
 
     }
 

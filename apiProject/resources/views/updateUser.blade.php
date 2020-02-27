@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-   <p>{{!! $data !!}} </p>
+   <p>{{!! $updatedUser !!}} </p>
 
 </body>
 
