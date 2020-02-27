@@ -104,9 +104,8 @@ class UserController extends Controller
 
         $user->save();
 
-        return view('api')->with('data', $resp);
+        return view('updateUser')->with('data', $user);
 
-        return $user;
     }
 
     /*
